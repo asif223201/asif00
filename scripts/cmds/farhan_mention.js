@@ -1,5 +1,3 @@
-📄 | Source code of "farhan_mention.js":
-
 const axios = require("axios");
 
 let videoIndex = 0;
@@ -7,7 +5,7 @@ let videoIndex = 0;
 module.exports = {
   config: {
     name: "farhan_mention",
-    version: "20.0.0",
+    version: "21.0.0",
     author: "Farhan-Khan",
     countDown: 0,
     role: 0,
@@ -18,13 +16,12 @@ module.exports = {
   onStart: async function () {},
 
   onChat: async function ({ event, message }) {
-
     // 🔒 Author lock
     if (this.config.author !== "Farhan-Khan") return;
 
     const admins = [
-      { uid: "61583978867791", names: ["〲Ϝɱz᭄卝 Momin࿐一ཐི༏ཋྀ࿐","মমিন","momin","Momin"] },
-      { uid: "61587947897924", names: ["Т҈Н҈Е҈ В҈ӏ҈А҈С҈К҈ Я҈О҈Ѕ҈Е҈"] }
+      { uid: "61583978867791", names: ["〲Ϝɱz᭄卝 Momin࿐一ཐི༏ཋྀ࿐"] },
+      { uid: "661583025494010", names: ["ONIK▁▁▁▁╱╱🙁😈🪽"] }
     ];
 
     const senderID = String(event.senderID);
@@ -40,38 +37,40 @@ module.exports = {
 
     if (!isMentioning) return;
 
+    // 🎬 Video list
     const videos = [
-      "https://i.imgur.com/bnRyaUF.mp4",
-      "https://i.imgur.com/X2ERDjP.mp4"
+      "https://files.catbox.moe/q3mjt2.mp4",
+      "https://files.catbox.moe/pqlni2.mp4"
     ];
 
     const videoUrl = videos[videoIndex];
     videoIndex = (videoIndex + 1) % videos.length;
 
+    // ✍️ captions
     const captions = [
-      "Mantion_দিস না _মমিন বস এর মন ভালো নেই আজকে-!💔🥀",
-      "- আমার বস মমিন এর সাথে কেউ টেক্স করে না 🫂💔",
-      "👉আমার বস মমিন এখন বিজি আছে । ইনবক্সে মেসেজ দাও 🔰https://www.facebook.com/61587947897924",
-      "বস মমিন কে এত মেনশন না দিয়ে একটু শান্তি দাও 🤷‍♂️",
-      "বস মমিন এখন অনেক বিজি আছে যা বলার আমাকে বলেন-😼🥰",
-      "বাল পাকনা Mantion_দিস না বস মমিন প্রচুর বিজি 🥵🥀🤐"
+      "Mantion_দিস না _MOMIN বস এর মন ভালো নেই আজকে 💔🥀",
+      "আমার বস momin এখন বিজি আছে 😒",
+      "বস ফ্রি হলে রিপ্লাই দিবে 🧡😁",
+      "বস কে এত মেনশন না দিয়ে ইনবক্স আসো 😏",
+      "MOMIN বস এখন বিজি, যা বলার আমাকে বলো 😼",
+      "মেনশন না দিয়ে বস কে একটা জি এফ দে 😑"
     ];
 
     const mentionNames = mentionedIDs.map(id => `@${id}`).join(", ");
 
     const caption = `
 ✿•≫───────────────≪•✿
-${mentionNames ? `Reply to: ${mentionNames}\n` : ""}
 『 ${captions[Math.floor(Math.random() * captions.length)]} 』
 ✿•≫───────────────≪•✿
 `;
 
     try {
+      // ⚡ Fast Video Fetch
       const videoStream = await axios({
         url: videoUrl,
         method: "GET",
         responseType: "stream",
-        timeout: 8000,
+        timeout: 10000,
         headers: { "User-Agent": "Mozilla/5.0" }
       });
 
