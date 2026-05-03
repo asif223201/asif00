@@ -6,21 +6,22 @@ const activeMurgi = new Map();
 module.exports = {
   config: {
     name: "murgi",
-    version: "1.1.0",
+    version: "2.0.0",
     role: 2,
-    author: "FARHAN-KHAN",
+    author: "MR_FARHAN",
     description: "Loop bad word messages until stopped",
     category: "fun",
     usages: "@mention | off",
     cooldowns: 5,
   },
 
-  onStart: async function({ message, event, args }) {
+  onStart: async function({ message, event, args, api }) {
+
     // OFF command
     if (args[0] && args[0].toLowerCase() === "off") {
       if (activeMurgi.has(event.threadID)) {
         activeMurgi.set(event.threadID, false);
-        return message.reply("🛑 Murgi mode stopped.");
+        return message.reply("🛑 ওকে বস মাগীর পোলা কে আর চুদবো না..");
       } else {
         return message.reply("⚠️ Murgi mode is not running.");
       }
@@ -28,10 +29,18 @@ module.exports = {
 
     const mention = Object.keys(event.mentions)[0];
     if (!mention) {
-      return message.reply("Please @mention a target first!");
+      return message.reply("বস যে মাগির পোলা কে চুদ্দে চাউ তার আইডি @ম্যানশন দেউ,🖕");
     }
 
-    const name = event.mentions[mention];
+    // 🔥 REAL NAME FETCH (FIXED)
+    let name = "User";
+    try {
+      const userInfo = await api.getUserInfo(mention);
+      name = userInfo[mention]?.name || "User";
+    } catch (e) {
+      console.error("Name fetch failed:", e);
+    }
+
     const arraytag = [{ id: mention, tag: name }];
 
     const messages = [
@@ -75,11 +84,11 @@ module.exports = {
         " ️️️️️⎯⎯   কিরে পা চাটা কুত্তা মাগির পুত ? তোর মারে নাকি তোর দাদা সুদে।😔😦",
         " ___তর মার ভুদায় ডিজেল ডেলে আগুুন লাগিয়া  দূর দিমো মাগির পোলা  //🌽🐹🍾🧜‍♀️",
         " তর মারে ১২ মাস চুদে গেলেও ওর ভোদার কিছু হবে না কারন মাগি তো ভোদা লোহা বানায় দিছে 😹💥🦶",
-        "😹_____ তোর কচি বোনকে বিয়ে দিবি রেন্ডি মাগির বাচ্চা!👅 ",
+        "😹_____ তোর কচি বোনকে বিয়ে দিবি রেন্ডি মাগির বাচ্চা!👅",
     ];
 
     activeMurgi.set(event.threadID, true);
-    message.reply("🔥 Murgi mode started.");
+    message.reply("বস 𓆩𝗕𝗢𝗦𝗦 𝗠𝗢𝗠𝗜𝗡𓆪 এর চুদা লো-🖕🥵");
 
     try {
       while (activeMurgi.get(event.threadID)) {
@@ -87,6 +96,7 @@ module.exports = {
           if (!activeMurgi.get(event.threadID)) break;
 
           await delay(2500);
+
           message.reply({
             body: `${name}\n${msg}`,
             mentions: arraytag
